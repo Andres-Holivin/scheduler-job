@@ -1,20 +1,32 @@
 import time
 from datetime import datetime
 import requests
-import schedule
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from apscheduler.schedulers.blocking import BlockingScheduler
+import os
 
 
 class HcBinus:
-    url = "https://hc.binus.edu"
+    # url = "https://hc.binus.edu"
+    url = "https://medium.com"
 
     def __init__(self):
-        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+
+        # self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+        self.driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),
+                                       chrome_options=chrome_options)
         self.driver.get(self.url)
+        print(self.driver.page_source)
+
+    def login(self):
         inputUsr = self.driver.find_element(By.ID, 'logonuidfield')
         inputPsr = self.driver.find_element(By.ID, 'logonpassfield')
         inputUsr.send_keys("andres.holivin")
@@ -56,28 +68,6 @@ class PushMessageTelegram:
         print(response)
 
 
-class HcSchedule:
-    def __init__(self):
-        print("do schedule")
-
-    def run_schedule_clock_in(self):
-        msg = PushMessageTelegram()
-        schedule \
-            .every(1).minutes.do(msg.send(str(datetime.now())))
-
-
-def job():
-    print("I'm working...")
-
-
-def cronjob():
-    print("Cron job is running")
-    print("Tick! The time is: %s" % datetime.now())
-
-    msg = PushMessageTelegram()
-    msg.send("Run schedule on The time is: %s" % datetime.now())
-
-
 if __name__ == "__main__":
     sched = BlockingScheduler()
 
@@ -87,14 +77,12 @@ if __name__ == "__main__":
     #     msg = PushMessageTelegram()
     #     msg.send("this schedule run every minutes on " + str(datetime.now()))
 
-
-    @sched.scheduled_job('cron', day_of_week='0-6', hour=17, minute=35)
-    def scheduled_job():
-        msg = PushMessageTelegram()
-        msg.send("this schedule run every day on " + str(datetime.now()))
+    # @sched.scheduled_job('cron', day_of_week='0-6', hour=1, minute=2)
+    # def scheduled_job():
+    hc = HcBinus()
 
 
-    sched.start()
+    # sched.start()
 
     # schedule \
     #     .every(1).minutes.do(job)
