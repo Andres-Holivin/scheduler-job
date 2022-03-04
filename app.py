@@ -86,13 +86,14 @@ def job():
 def cronjob():
     print("Cron job is running")
     print("Tick! The time is: %s" % datetime.now())
+
     msg = PushMessageTelegram()
     msg.send("Run schedule on The time is: %s" % datetime.now())
 
 
 if __name__ == "__main__":
     scheduler = BlockingScheduler()
-    scheduler.add_job(cronjob, "interval", seconds=30)
+    scheduler.add_job(cronjob, "interval", hour='17', minute='30', day_of_week='0-5', start_date=str(datetime.now()), timezone='utc')
 
     scheduler.start()
     # sched.start()
