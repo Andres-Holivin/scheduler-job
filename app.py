@@ -70,19 +70,6 @@ def job():
     print("I'm working...")
 
 
-# sched = BlockingScheduler()
-
-
-# @sched.scheduled_job('interval', minutes=3)
-# def timed_job():
-#     print('This job is run every three minutes.')
-#
-#
-# @sched.scheduled_job('cron', day_of_week='mon-fri', hour=17)
-# def scheduled_job():
-#     print('This job is run every weekday at 5pm.')
-
-
 def cronjob():
     print("Cron job is running")
     print("Tick! The time is: %s" % datetime.now())
@@ -92,11 +79,22 @@ def cronjob():
 
 
 if __name__ == "__main__":
-    scheduler = BlockingScheduler()
-    scheduler.add_job(cronjob, "interval", hour=16, minute=35, day_of_week='0-5', start_date=str(datetime.now()))
+    sched = BlockingScheduler()
 
-    scheduler.start()
-    # sched.start()
+
+    @sched.scheduled_job('interval', minutes=1)
+    def timed_job():
+        msg = PushMessageTelegram()
+        msg.send("this schedule run every minutes on " + str(datetime.now()))
+
+
+    @sched.scheduled_job('cron', day_of_week='0-6', hour=0, minute=20)
+    def scheduled_job():
+        msg = PushMessageTelegram()
+        msg.send("this schedule run every day on " + str(datetime.now()))
+
+
+    sched.start()
 
     # schedule \
     #     .every(1).minutes.do(job)
