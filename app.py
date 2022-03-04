@@ -93,10 +93,10 @@ def cronjob():
 
 
 if __name__ == "__main__":
-    scheduler = BlockingScheduler()
-    scheduler.add_job(cronjob, "interval", seconds=30)
-
-    scheduler.start()
+    # scheduler = BlockingScheduler()
+    # scheduler.add_job(cronjob, "interval", seconds=30)
+    #
+    # scheduler.start()
     # sched.start()
 
     # schedule \
@@ -108,5 +108,5 @@ if __name__ == "__main__":
     # hcSchedule.run_schedule_clock_in()
     # hc = HcBinus()
     # hc.clock_in()
-    # msg = PushMessageTelegram()
-    # msg.send("test")
+    msg = PushMessageTelegram()
+    msg.send("test")

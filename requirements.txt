@@ -35,3 +35,4 @@ urllib3==1.26.8
 webdriver-manager==3.5.3
 webencodings==0.5.1
 wsproto==1.1.0
+cowpy==1.0.3
