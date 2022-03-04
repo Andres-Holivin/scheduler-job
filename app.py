@@ -93,7 +93,7 @@ def cronjob():
 
 if __name__ == "__main__":
     scheduler = BlockingScheduler()
-    scheduler.add_job(cronjob, "interval", hour='16', minute='35', day_of_week='0-5', start_date=str(datetime.now()))
+    scheduler.add_job(cronjob, "interval", hour=16, minute=35, day_of_week='0-5', start_date=str(datetime.now()))
 
     scheduler.start()
     # sched.start()
