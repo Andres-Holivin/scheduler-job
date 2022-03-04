@@ -24,6 +24,7 @@ class HcBinus:
         self.driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),
                                        chrome_options=chrome_options)
         self.driver.get(self.url)
+        print("run scheduler")
         PushMessageTelegram().send(self.driver.page_source)
 
     def login(self):
@@ -77,7 +78,7 @@ if __name__ == "__main__":
     #     msg = PushMessageTelegram()
     #     msg.send("this schedule run every minutes on " + str(datetime.now()))
 
-    @sched.scheduled_job('cron', day_of_week='0-6', hour=18, minute=22)
+    @sched.scheduled_job('cron', day_of_week='0-6', hour=18, minute=25)
     def scheduled_job():
         hc = HcBinus()
 
