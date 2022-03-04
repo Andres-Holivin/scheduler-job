@@ -20,9 +20,9 @@ class HcBinus:
         chrome_options.add_argument("--no-sandbox")
         chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
 
-        # self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-        self.driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),
-                                       chrome_options=chrome_options)
+        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+        # self.driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),
+        #                                chrome_options=chrome_options)
         self.driver.get(self.url)
         print("run scheduler")
         PushMessageTelegram().send(self.driver.page_source)
@@ -73,14 +73,14 @@ if __name__ == "__main__":
     sched = BlockingScheduler()
 
 
-    # @sched.scheduled_job('interval', minutes=1)
-    # def timed_job():
-    #     msg = PushMessageTelegram()
-    #     msg.send("this schedule run every minutes on " + str(datetime.now()))
+    @sched.scheduled_job('interval', minutes=1)
+    def timed_job():
+        msg = PushMessageTelegram()
+        msg.send("this schedule run every minutes on " + str(datetime.now()))
 
-    @sched.scheduled_job('cron', day_of_week='0-6', hour=18, minute=35)
-    def scheduled_job():
-        hc = HcBinus()
+    # @sched.scheduled_job('cron', day_of_week='0-6', hour=1, minute=32)
+    # def scheduled_job():
+    #     hc = HcBinus()
 
     sched.start()
 
