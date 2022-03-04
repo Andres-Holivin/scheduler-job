@@ -1,4 +1,4 @@
-import time
+`import time
 from datetime import datetime
 import requests
 from selenium import webdriver
@@ -10,8 +10,7 @@ import os
 
 
 class HcBinus:
-    # url = "https://hc.binus.edu"
-    url = "https://medium.com"
+    url = "https://hc.binus.edu"
 
     def __init__(self):
         chrome_options = webdriver.ChromeOptions()
@@ -20,12 +19,11 @@ class HcBinus:
         chrome_options.add_argument("--no-sandbox")
         chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
 
-        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-        # self.driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),
-        #                                chrome_options=chrome_options)
+        # self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+        self.driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),
+                                       chrome_options=chrome_options)
         self.driver.get(self.url)
         print("run scheduler")
-        PushMessageTelegram().send(self.driver.page_source)
 
     def login(self):
         inputUsr = self.driver.find_element(By.ID, 'logonuidfield')
@@ -72,27 +70,22 @@ class PushMessageTelegram:
 if __name__ == "__main__":
     sched = BlockingScheduler()
 
-
-    @sched.scheduled_job('interval', minutes=1)
-    def timed_job():
-        msg = PushMessageTelegram()
-        msg.send("this schedule run every minutes on " + str(datetime.now()))
-
-    @sched.scheduled_job('cron', day_of_week='0-6', hour=3, minute=28)
+    @sched.scheduled_job('clock_in', day_of_week='0-5', hour=8, minute=50)
     def scheduled_job():
+        hc = HcBinus()
+        hc.login()
+        hc.check_wfh()
+        hc.click_clock_in()
         msg = PushMessageTelegram()
-        msg.send("this schedule run every minutes on " + str(datetime.now()))
+        msg.send("clock in hc run on : "+str(datetime.now()))
+
+    @sched.scheduled_job('clock_out', day_of_week='0-5', hour=23, minute=50)
+    def scheduled_job():
+        hc = HcBinus()
+        hc.login()
+        hc.check_wfh()
+        hc.click_clock_out()
+        msg = PushMessageTelegram()
+        msg.send("clock out hc run on : "+str(datetime.now()))
 
     sched.start()
-
-    # schedule \
-    #     .every(1).minutes.do(job)
-    # while True:
-    #     schedule.run_pending()
-    #     time.sleep(1)
-    # hcSchedule = HcSchedule()
-    # hcSchedule.run_schedule_clock_in()
-    # hc = HcBinus()
-    # hc.clock_in()
-    # msg = PushMessageTelegram()
-    # msg.send("test")
