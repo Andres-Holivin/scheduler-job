@@ -88,7 +88,7 @@ if __name__ == "__main__":
     #     msg.send("this schedule run every minutes on " + str(datetime.now()))
 
 
-    @sched.scheduled_job('cron', day_of_week='0-6', hour=0, minute=28)
+    @sched.scheduled_job('cron', day_of_week='0-6', hour=17, minute=35)
     def scheduled_job():
         msg = PushMessageTelegram()
         msg.send("this schedule run every day on " + str(datetime.now()))
