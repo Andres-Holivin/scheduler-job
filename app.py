@@ -82,10 +82,10 @@ if __name__ == "__main__":
     sched = BlockingScheduler()
 
 
-    @sched.scheduled_job('interval', minutes=1)
-    def timed_job():
-        msg = PushMessageTelegram()
-        msg.send("this schedule run every minutes on " + str(datetime.now()))
+    # @sched.scheduled_job('interval', minutes=1)
+    # def timed_job():
+    #     msg = PushMessageTelegram()
+    #     msg.send("this schedule run every minutes on " + str(datetime.now()))
 
 
     @sched.scheduled_job('cron', day_of_week='0-6', hour=0, minute=28)
