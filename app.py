@@ -23,7 +23,6 @@ class HcBinus:
         self.driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),
                                        chrome_options=chrome_options)
         self.driver.get(self.url)
-        print(self.driver.page_source)
         print("run scheduler")
 
     def login(self):
@@ -39,9 +38,10 @@ class HcBinus:
         self.driver.switch_to.frame("contentAreaFrame")
         self.driver.switch_to.frame("isolatedWorkArea")
         print("switch frame")
+        print(self.driver.page_source)
         wfh = self.driver.find_element(By.ID, "WD4A-lbl").click()
         print("check work from home")
-        time.sleep(5)
+        time.sleep(10)
         self.driver.close()
 
     def click_clock_in(self):
@@ -69,6 +69,10 @@ class PushMessageTelegram:
 
 
 if __name__ == "__main__":
+    # hc = HcBinus()
+    # hc.login()
+    # hc.check_wfh()
+
     sched = BlockingScheduler()
 
     # @sched.scheduled_job('cron', day_of_week='0-5', hour=8, minute=50)
@@ -80,12 +84,12 @@ if __name__ == "__main__":
     #     msg = PushMessageTelegram()
     #     msg.send("clock in hc run on : "+str(datetime.now()))
 
-    @sched.scheduled_job('cron', day_of_week='0-5', hour=1, minute=48)
+    @sched.scheduled_job('cron', day_of_week='0-6', hour=1, minute=55)
     def scheduled_job():
         hc = HcBinus()
 
-        # hc.login()
-        # hc.check_wfh()
+        hc.login()
+        hc.check_wfh()
         # hc.click_clock_out()
         msg = PushMessageTelegram()
         msg.send("clock out hc run on : "+str(datetime.now()))
