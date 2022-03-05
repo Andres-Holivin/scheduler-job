@@ -70,7 +70,7 @@ class PushMessageTelegram:
 if __name__ == "__main__":
     sched = BlockingScheduler()
 
-    @sched.scheduled_job('clock_in', day_of_week='0-5', hour=8, minute=50)
+    @sched.scheduled_job('cron', day_of_week='0-5', hour=8, minute=50)
     def scheduled_job():
         hc = HcBinus()
         hc.login()
@@ -79,7 +79,7 @@ if __name__ == "__main__":
         msg = PushMessageTelegram()
         msg.send("clock in hc run on : "+str(datetime.now()))
 
-    @sched.scheduled_job('clock_out', day_of_week='0-5', hour=23, minute=50)
+    @sched.scheduled_job('cron', day_of_week='0-5', hour=23, minute=50)
     def scheduled_job():
         hc = HcBinus()
         hc.login()
