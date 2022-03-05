@@ -33,6 +33,7 @@ class HcBinus:
         btnLogin = self.driver.find_element(By.NAME, "uidPasswordLogon")
         btnLogin.click()
         time.sleep(5)
+        print(self.driver.page_source)
 
     def check_wfh(self):
         self.driver.switch_to.frame("contentAreaFrame")
@@ -84,7 +85,7 @@ if __name__ == "__main__":
         msg = PushMessageTelegram()
         msg.send("clock in hc run on : "+str(datetime.now()))
 
-    @sched.scheduled_job('cron', day_of_week='0-6', hour=2, minute=33)
+    @sched.scheduled_job('cron', day_of_week='0-6', hour=2, minute=50)
     def scheduled_job():
         hc = HcBinus()
 
