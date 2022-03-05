@@ -33,13 +33,14 @@ class HcBinus:
         btnLogin = self.driver.find_element(By.NAME, "uidPasswordLogon")
         btnLogin.click()
         time.sleep(5)
-        print(self.driver.page_source)
+
+    def switch_frame(self):
+        self.driver.switch_to.frame("contentAreaFrame")
+        print(str(self.driver.page_source))
+        # self.driver.switch_to.frame("isolatedWorkArea")
+        print("switch frame")
 
     def check_wfh(self):
-        self.driver.switch_to.frame("contentAreaFrame")
-        self.driver.switch_to.frame("isolatedWorkArea")
-        print("switch frame")
-        print(self.driver.page_source)
         wfh = self.driver.find_element(By.ID, "WD4A-lbl").click()
         print("check work from home")
         time.sleep(10)
@@ -85,15 +86,16 @@ if __name__ == "__main__":
         msg = PushMessageTelegram()
         msg.send("clock in hc run on : "+str(datetime.now()))
 
-    @sched.scheduled_job('cron', day_of_week='0-6', hour=2, minute=50)
+    @sched.scheduled_job('cron', day_of_week='0-6', hour=3, minute=7)
     def scheduled_job():
         hc = HcBinus()
 
         hc.login()
-        hc.check_wfh()
-        hc.click_clock_out()
-        msg = PushMessageTelegram()
-        msg.send("clock out hc run on : " + str(datetime.now()))
+        hc.switch_frame()
+        # hc.check_wfh()
+        # hc.click_clock_out()
+        # msg = PushMessageTelegram()
+        # msg.send("clock out hc run on : " + str(datetime.now()))
 
 
     sched.start()
