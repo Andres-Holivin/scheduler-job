@@ -36,8 +36,8 @@ class HcBinus:
 
     def switch_frame(self):
         self.driver.switch_to.frame("contentAreaFrame")
+        self.driver.switch_to.frame("isolatedWorkArea")
         print(str(self.driver.page_source))
-        # self.driver.switch_to.frame("isolatedWorkArea")
         print("switch frame")
 
     def check_wfh(self):
