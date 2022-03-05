@@ -78,6 +78,8 @@ if __name__ == "__main__":
 
     hc.login()
     hc.switch_frame()
+    hc.check_wfh()
+    hc.click_clock_out()
     # sched = BlockingScheduler()
 
 
