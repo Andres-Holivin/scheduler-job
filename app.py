@@ -32,7 +32,7 @@ class HcBinus:
         inputPsr.send_keys("andres12holivin")
         btnLogin = self.driver.find_element(By.NAME, "uidPasswordLogon")
         btnLogin.click()
-        time.sleep(10)
+        time.sleep(5)
 
     def check_wfh(self):
         self.driver.switch_to.frame("contentAreaFrame")
@@ -42,17 +42,20 @@ class HcBinus:
         wfh = self.driver.find_element(By.ID, "WD4A-lbl").click()
         print("check work from home")
         time.sleep(10)
-        self.driver.close()
 
     def click_clock_in(self):
         clock_in = self.driver.find_element(By.ID, "WD4D").click()
         print(datetime.now())
         print("click clock in")
+        time.sleep(10)
+        self.driver.close()
 
     def click_clock_out(self):
         clock_out = self.driver.find_element(By.ID, "WD4E").click()
         print(datetime.now())
         print("click clock out")
+        time.sleep(10)
+        self.driver.close()
 
 
 class PushMessageTelegram:
@@ -69,29 +72,27 @@ class PushMessageTelegram:
 
 
 if __name__ == "__main__":
-    # hc = HcBinus()
-    # hc.login()
-    # hc.check_wfh()
-
     sched = BlockingScheduler()
 
-    # @sched.scheduled_job('cron', day_of_week='0-5', hour=8, minute=50)
-    # def scheduled_job():
-    #     hc = HcBinus()
-    #     hc.login()
-    #     hc.check_wfh()
-    #     hc.click_clock_in()
-    #     msg = PushMessageTelegram()
-    #     msg.send("clock in hc run on : "+str(datetime.now()))
 
-    @sched.scheduled_job('cron', day_of_week='0-6', hour=2, minute=8)
+    @sched.scheduled_job('cron', day_of_week='0-5', hour=8, minute=50)
+    def scheduled_job():
+        hc = HcBinus()
+        hc.login()
+        hc.check_wfh()
+        hc.click_clock_in()
+        msg = PushMessageTelegram()
+        msg.send("clock in hc run on : "+str(datetime.now()))
+
+    @sched.scheduled_job('cron', day_of_week='0-6', hour=2, minute=33)
     def scheduled_job():
         hc = HcBinus()
 
         hc.login()
         hc.check_wfh()
-        hc.click_clock_in()
+        hc.click_clock_out()
         msg = PushMessageTelegram()
-        msg.send("clock out hc run on : "+str(datetime.now()))
+        msg.send("clock out hc run on : " + str(datetime.now()))
+
 
     sched.start()
