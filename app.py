@@ -102,4 +102,4 @@ if __name__ == "__main__":
         # msg.send("clock out hc run on : " + str(datetime.now()))
 
 
-    sched.start()
+    # sched.start()
