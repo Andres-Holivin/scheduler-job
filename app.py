@@ -13,15 +13,15 @@ class HcBinus:
     url = "https://hc.binus.edu"
 
     def __init__(self):
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("--no-sandbox")
-        chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+        # chrome_options = webdriver.ChromeOptions()
+        # chrome_options.add_argument("--headless")
+        # chrome_options.add_argument("--disable-dev-shm-usage")
+        # chrome_options.add_argument("--no-sandbox")
+        # chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
 
-        # self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-        self.driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),
-                                       chrome_options=chrome_options)
+        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+        # self.driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),
+        #                                chrome_options=chrome_options)
         self.driver.get(self.url)
         print("run scheduler")
 
@@ -74,24 +74,28 @@ class PushMessageTelegram:
 
 
 if __name__ == "__main__":
-    sched = BlockingScheduler()
+    hc = HcBinus()
+
+    hc.login()
+    hc.switch_frame()
+    # sched = BlockingScheduler()
 
 
-    @sched.scheduled_job('cron', day_of_week='0-5', hour=8, minute=50)
-    def scheduled_job():
-        hc = HcBinus()
-        hc.login()
-        hc.check_wfh()
-        hc.click_clock_in()
-        msg = PushMessageTelegram()
-        msg.send("clock in hc run on : "+str(datetime.now()))
-
-    @sched.scheduled_job('cron', day_of_week='0-6', hour=3, minute=7)
-    def scheduled_job():
-        hc = HcBinus()
-
-        hc.login()
-        hc.switch_frame()
+    # @sched.scheduled_job('cron', day_of_week='0-5', hour=8, minute=50)
+    # def scheduled_job():
+    #     hc = HcBinus()
+    #     hc.login()
+    #     hc.check_wfh()
+    #     hc.click_clock_in()
+    #     msg = PushMessageTelegram()
+    #     msg.send("clock in hc run on : "+str(datetime.now()))
+    #
+    # @sched.scheduled_job('cron', day_of_week='0-6', hour=3, minute=7)
+    # def scheduled_job():
+    #     hc = HcBinus()
+    #
+    #     hc.login()
+    #     hc.switch_frame()
         # hc.check_wfh()
         # hc.click_clock_out()
         # msg = PushMessageTelegram()
