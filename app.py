@@ -84,13 +84,13 @@ if __name__ == "__main__":
     #     msg = PushMessageTelegram()
     #     msg.send("clock in hc run on : "+str(datetime.now()))
 
-    @sched.scheduled_job('cron', day_of_week='0-6', hour=1, minute=55)
+    @sched.scheduled_job('cron', day_of_week='0-6', hour=1, minute=1)
     def scheduled_job():
         hc = HcBinus()
 
         hc.login()
         hc.check_wfh()
-        # hc.click_clock_out()
+        hc.click_clock_in()
         msg = PushMessageTelegram()
         msg.send("clock out hc run on : "+str(datetime.now()))
 
