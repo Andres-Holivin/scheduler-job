@@ -32,7 +32,7 @@ class HcBinus:
         inputPsr.send_keys("andres12holivin")
         btnLogin = self.driver.find_element(By.NAME, "uidPasswordLogon")
         btnLogin.click()
-        time.sleep(5)
+        time.sleep(15)
 
     def switch_frame(self):
         self.driver.switch_to.frame("contentAreaFrame")
