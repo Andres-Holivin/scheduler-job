@@ -32,7 +32,7 @@ class HcBinus:
         inputPsr.send_keys("andres12holivin")
         btnLogin = self.driver.find_element(By.NAME, "uidPasswordLogon")
         btnLogin.click()
-        time.sleep(15)
+        time.sleep(25)
 
     def switch_frame(self):
         self.driver.switch_to.frame("contentAreaFrame")
@@ -77,7 +77,7 @@ if __name__ == "__main__":
     sched = BlockingScheduler()
 
 
-    @sched.scheduled_job('cron', day_of_week='0-5', hour=10, minute=55)
+    @sched.scheduled_job('cron', day_of_week='0-5', hour=11, minute=30)
     def scheduled_job():
         hc = HcBinus()
         hc.login()
