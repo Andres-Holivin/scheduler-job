@@ -77,10 +77,11 @@ if __name__ == "__main__":
     sched = BlockingScheduler()
 
 
-    @sched.scheduled_job('cron', day_of_week='0-5', hour=11, minute=30)
+    @sched.scheduled_job('cron', day_of_week='0-5', hour=8, minute=45)
     def scheduled_job():
         hc = HcBinus()
         hc.login()
+        hc.switch_frame()
         hc.check_wfh()
         hc.click_clock_in()
         msg = PushMessageTelegram()
@@ -89,7 +90,6 @@ if __name__ == "__main__":
     @sched.scheduled_job('cron', day_of_week='0-5', hour=23, minute=55)
     def scheduled_job():
         hc = HcBinus()
-
         hc.login()
         hc.switch_frame()
         hc.check_wfh()
