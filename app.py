@@ -77,7 +77,7 @@ if __name__ == "__main__":
     sched = BlockingScheduler()
 
 
-    @sched.scheduled_job('cron', day_of_week='0-5', hour=8, minute=50)
+    @sched.scheduled_job('cron', day_of_week='0-5', hour=10, minute=55)
     def scheduled_job():
         hc = HcBinus()
         hc.login()
