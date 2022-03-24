@@ -32,31 +32,29 @@ class HcBinus:
         inputPsr.send_keys("andres12holivin")
         btnLogin = self.driver.find_element(By.NAME, "uidPasswordLogon")
         btnLogin.click()
-        time.sleep(25)
+        time.sleep(20)
 
     def switch_frame(self):
         self.driver.switch_to.frame("contentAreaFrame")
         self.driver.switch_to.frame("isolatedWorkArea")
         print(str(self.driver.page_source))
         print("switch frame")
+        time.sleep(10)
 
     def check_wfh(self):
         wfh = self.driver.find_element(By.ID, "WD4A-lbl").click()
         print("check work from home")
-        time.sleep(10)
 
     def click_clock_in(self):
         clock_in = self.driver.find_element(By.ID, "WD4D").click()
         print(datetime.now())
         print("click clock in")
-        time.sleep(10)
         self.driver.close()
 
     def click_clock_out(self):
         clock_out = self.driver.find_element(By.ID, "WD4E").click()
         print(datetime.now())
         print("click clock out")
-        time.sleep(10)
         self.driver.close()
 
 
