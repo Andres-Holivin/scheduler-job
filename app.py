@@ -32,14 +32,14 @@ class HcBinus:
         inputPsr.send_keys("@HOLIVIN12andres")
         btnLogin = self.driver.find_element(By.NAME, "uidPasswordLogon")
         btnLogin.click()
-        time.sleep(20)
+        time.sleep(25)
 
     def switch_frame(self):
         self.driver.switch_to.frame("contentAreaFrame")
         self.driver.switch_to.frame("isolatedWorkArea")
         print(str(self.driver.page_source))
         print("switch frame")
-        time.sleep(10)
+        time.sleep(25)
 
     def check_wfh(self):
         wfh = self.driver.find_element(By.ID, "WD4A-lbl").click()
@@ -75,7 +75,7 @@ if __name__ == "__main__":
     sched = BlockingScheduler()
 
 
-    @sched.scheduled_job('cron', day_of_week='0-5', hour=8, minute=45)
+    @sched.scheduled_job('cron', day_of_week='0-4', hour=8, minute=45)
     def scheduled_job():
         hc = HcBinus()
         hc.login()
@@ -85,7 +85,7 @@ if __name__ == "__main__":
         msg = PushMessageTelegram()
         msg.send("clock in hc run on : "+str(datetime.now()))
 
-    @sched.scheduled_job('cron', day_of_week='0-5', hour=23, minute=55)
+    @sched.scheduled_job('cron', day_of_week='0-4', hour=23, minute=55)
     def scheduled_job():
         hc = HcBinus()
         hc.login()
