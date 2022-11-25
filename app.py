@@ -28,8 +28,8 @@ class HcBinus:
     def login(self):
         inputUsr = self.driver.find_element(By.ID, 'logonuidfield')
         inputPsr = self.driver.find_element(By.ID, 'logonpassfield')
-        inputUsr.send_keys("andres.holivin")
-        inputPsr.send_keys("@HOLIVIN12andres")
+        inputUsr.send_keys("")
+        inputPsr.send_keys("")
         btnLogin = self.driver.find_element(By.NAME, "uidPasswordLogon")
         btnLogin.click()
         time.sleep(25)
